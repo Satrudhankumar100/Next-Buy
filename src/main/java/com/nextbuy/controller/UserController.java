@@ -1,5 +1,7 @@
 package com.nextbuy.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class UserController {
 	@PostMapping("/save-user")
 	public ResponseEntity<String> saveUser(@RequestBody UserDTO UserDTO) {
 		userService.saveUser(UserDTO);
-		return new ResponseEntity<>("User Created Successfully..", HttpStatus.OK);
+		return new ResponseEntity<>("User Created Successfully..", HttpStatus.CREATED);
 	}
 
 	@PatchMapping("/edit-user/{id}")
@@ -43,14 +45,11 @@ public class UserController {
 		UserDTO user = userService.getUser(Integer.parseInt(id));
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
-	
-	
-	
 
-	@PostMapping("/save-addr")
-	public ResponseEntity<String> saveUserAddress(@RequestBody AddressDTO addressDTO) {
-		userService.saveUserAddress(addressDTO);
-		return new ResponseEntity<>("User Created Successfully..", HttpStatus.OK);
+	@PostMapping("/save-addr/{id}")
+	public ResponseEntity<String> saveUserAddress(@PathVariable("id") String id,  @RequestBody AddressDTO addressDTO) {
+		userService.saveUserAddress(Integer.parseInt(id), addressDTO);
+		return new ResponseEntity<>("Address Created Successfully..", HttpStatus.CREATED);
 
 	}
 
@@ -60,10 +59,11 @@ public class UserController {
 		return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
 	}
 
+	
 	@GetMapping("/find-addr/{id}")
-	public ResponseEntity<AddressDTO> getAddress(@PathVariable("id") String id) {
-		AddressDTO address = userService.getAddress(Integer.parseInt(id));
-		return new ResponseEntity<AddressDTO>(address, HttpStatus.OK);
+	public ResponseEntity<List<AddressDTO>> getAddress(@PathVariable("id") String id) {
+		List<AddressDTO> addresses = userService.getAddress(Integer.parseInt(id));
+		return new ResponseEntity<List<AddressDTO>>(addresses, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete-addr/{id}")

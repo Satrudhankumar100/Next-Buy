@@ -1,12 +1,12 @@
-package com.nextbuy.entity;
+package com.nextbuy.dto;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
 @Data
-public class ProductEntity {
+public class ProductDTO {
+	
+	
 	@Id
 	private Integer prodId;
 	private Double prodPrice;
@@ -18,6 +18,5 @@ public class ProductEntity {
 	private String rating;
 	private String image;
 	private String description;
-	
 
 }
