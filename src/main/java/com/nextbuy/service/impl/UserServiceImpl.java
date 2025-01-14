@@ -1,10 +1,7 @@
 package com.nextbuy.service.impl;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -76,6 +73,12 @@ public class UserServiceImpl implements IUserService {
 		UserDTO userDTO = new UserDTO();
 		BeanUtils.copyProperties(userEntity, userDTO);
 		return userDTO;
+	}
+
+	@Override
+	public UserEntity getUserEntityById(Integer id) {
+		return userRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User Not Found!!!"));
+
 	}
 
 	@Override

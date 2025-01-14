@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nextbuy.dto.AddressDTO;
 import com.nextbuy.dto.UserDTO;
+import com.nextbuy.entity.UserEntity;
 
 public interface IUserService {
 
@@ -12,6 +13,8 @@ public interface IUserService {
 	void editUser(Integer id, UserDTO userDTO);
 
 	UserDTO getUser(Integer id);
+	
+	UserEntity getUserEntityById(Integer id);
 
 	void saveUserAddress(Integer id,AddressDTO addressDTO);
 
@@ -20,5 +23,7 @@ public interface IUserService {
 	List<AddressDTO> getAddress(Integer id);
 
 	void removeAddress(Integer id);
+	
+	
 
 }

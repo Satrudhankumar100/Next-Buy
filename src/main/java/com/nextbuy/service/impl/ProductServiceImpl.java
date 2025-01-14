@@ -1,9 +1,8 @@
 package com.nextbuy.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,7 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public void saveProduct(ProductDTO productDTO) {
 		ProductEntity entity = new ProductEntity();
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.map(productDTO, entity);
+		BeanUtils.copyProperties(productDTO, entity);
 		productRepo.save(entity);
 	}
 
@@ -36,33 +34,30 @@ public class ProductServiceImpl implements IProductService {
 		BeanUtils.copyProperties(entity, productDTO);
 		return productDTO;
 	}
-	
+
 	@Override
 	public List<ProductDTO> getAllProduct() {
-	    List<ProductEntity> entities = productRepo.findAll();
-	    List<ProductDTO> productDTOList = new ArrayList<>();
-	    for (ProductEntity entity : entities) {
-	        ProductDTO productDTO = new ProductDTO();
-	        BeanUtils.copyProperties(entity, productDTO);
-	        productDTOList.add(productDTO);
-	    }
-	    return productDTOList;
+		List<ProductDTO> products = productRepo.findAll().stream().map(entity -> {
+			ProductDTO productDTO = new ProductDTO();
+			BeanUtils.copyProperties(entity, productDTO);
+			return productDTO;
+		}).collect(Collectors.toList());
+		return products;
 	}
-	
-	
-	  public List<ProductDTO> searchProducts(String keyword) {
-	        List<ProductEntity> entities = productRepo.searchByNameOrTitle(keyword);
-	        List<ProductDTO> productDTOList = new ArrayList<>();
 
-	        for (ProductEntity entity : entities) {
-	            ProductDTO productDTO = new ProductDTO();
-	            BeanUtils.copyProperties(entity, productDTO);
-	            productDTOList.add(productDTO);
-	        }
+	@Override
+	public List<ProductDTO> searchProducts(String keyword) {
+		return productRepo.searchByNameOrTitle(keyword).stream().map(entity -> {
+			ProductDTO productDTO = new ProductDTO();
+			BeanUtils.copyProperties(entity, productDTO);
+			return productDTO;
+		}).collect(Collectors.toList());
+	}
 
-	        return productDTOList;
-	    }
-	
+	@Override
+	public ProductEntity getProductEntity(Integer prodId) {
+		return productRepo.findById(prodId).orElseThrow(() -> new ProductNotFoundException("Product Not Found!!!"));
 
+	}
 
 }
