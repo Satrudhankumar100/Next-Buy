@@ -6,4 +6,5 @@ import com.nextbuy.entity.AddressEntity;
 
 public interface AddressRepository extends JpaRepository<AddressEntity, Integer> {
 
+	
 }

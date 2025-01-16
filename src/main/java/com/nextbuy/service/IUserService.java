@@ -24,6 +24,8 @@ public interface IUserService {
 
 	void removeAddress(Integer id);
 	
+	AddressDTO getAddressById(Integer addrId);
+	
 	
 
 }

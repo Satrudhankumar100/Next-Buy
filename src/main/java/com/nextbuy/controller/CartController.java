@@ -33,8 +33,8 @@ public class CartController {
 
 	}
 	
-	@DeleteMapping("/remove-cart/{id}")
-	public ResponseEntity<String> removeCart(@PathVariable("id") String cartId){
+	@DeleteMapping("/remove-cart/{cart-id}")
+	public ResponseEntity<String> removeCart(@PathVariable("cart-id") String cartId){
 		cartService.removeCart(Integer.parseInt(cartId));
 		return new ResponseEntity<String>("Deleted Successfully",HttpStatus.OK);
 	}

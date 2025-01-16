@@ -3,6 +3,8 @@ package com.nextbuy.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,12 +13,15 @@ import lombok.Data;
 public class OrdersEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ordId;
-    private LocalDateTime ordDate;
     private boolean ordStatus;
-    private Double ordTotalAmount;
+    
+    @CreationTimestamp
     private LocalDateTime ordCreatedDate;
     private String ordAddress;
+    
+    
     private LocalDateTime ordDeliveryDate;
 
     // Many-to-One relationship with UserEntity

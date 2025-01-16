@@ -2,6 +2,7 @@ package com.nextbuy.service.impl;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -117,6 +118,14 @@ public class UserServiceImpl implements IUserService {
 		AddressEntity addressEntity = addressRepo.findById(id)
 				.orElseThrow(() -> new AddressNotFoundException("Address Not Found!!"));
 		addressRepo.deleteById(id);
+	}
+	
+	@Override
+	public AddressDTO getAddressById(Integer addrId) {
+		AddressDTO addressDTO = new AddressDTO();
+		AddressEntity addressEntity = addressRepo.findById(addrId).orElseThrow(()->new AddressNotFoundException("address Not found !!"));
+		BeanUtils.copyProperties(addressEntity, addressDTO);
+		return addressDTO;
 	}
 
 }
